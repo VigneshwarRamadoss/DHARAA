@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { motion, useScroll } from "framer-motion";
 import {
   Outlet,
   Link,
@@ -116,11 +117,16 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { scrollYProgress } = useScroll();
 
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <WishlistProvider>
+          <motion.div
+            className="pointer-events-none fixed left-0 right-0 top-[64px] z-[60] h-[2px] origin-left bg-gradient-to-r from-[#AB8C52] to-[#FC5927]"
+            style={{ scaleX: scrollYProgress }}
+          />
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </WishlistProvider>

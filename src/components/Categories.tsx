@@ -73,6 +73,7 @@ function CategoryCard({ c, i }: { c: CatItem; i: number }) {
         rotateY: prefersReduced ? 0 : rotateY,
         transformStyle: "preserve-3d",
         perspective: 1000,
+        willChange: "transform",
       }}
       whileHover={prefersReduced ? {} : {
         y: -4,

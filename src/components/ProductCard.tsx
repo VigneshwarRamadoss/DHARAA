@@ -30,6 +30,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       variants={cardVariants}
       custom={index}
       className="product-card group"
+      whileHover={{ y: -4, transition: { duration: 0.25, ease: "easeOut" } }}
+      style={{ willChange: "transform" }}
     >
       {/* Image Area */}
       <Link to="/product/$id" params={{ id: product.id }} className="block relative overflow-hidden aspect-[4/5]">
@@ -49,10 +51,15 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           whileTap={{ scale: 0.9 }}
           aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <Heart
-            size={16}
-            className={wishlisted ? 'fill-red text-red' : 'text-ink'}
-          />
+          <motion.div
+            animate={wishlisted ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+          >
+            <Heart
+              size={16}
+              className={wishlisted ? 'fill-[#DC5656] text-[#DC5656]' : 'text-ink'}
+            />
+          </motion.div>
         </motion.button>
       </Link>
 
