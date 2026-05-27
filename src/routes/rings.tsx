@@ -6,8 +6,8 @@ import { ProductGrid } from '@/components/ProductGrid';
 import { mockProducts } from '@/data/products';
 import { CartDrawer } from '@/components/CartDrawer';
 import { WishlistDrawer } from '@/components/WishlistDrawer';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { useRef, useState, useMemo } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useMemo, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 
@@ -30,6 +30,47 @@ function RingsPage() {
   const prefersReduced = useReducedMotion();
   const [activeTab, setActiveTab] = useState("all");
   const [selectedSize, setSelectedSize] = useState<number>(7);
+
+  const [isCalibrated, setIsCalibrated] = useState<boolean>(false);
+  const [calibrationPxPerMm, setCalibrationPxPerMm] = useState<number | null>(null);
+  const [sliderValue, setSliderValue] = useState<number>(320); // Initial CSS px width guess
+  const [showCalibration, setShowCalibration] = useState<boolean>(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('dharaa_screen_calibration');
+    if (stored) {
+      try {
+        const data = JSON.parse(stored);
+        if (data.pxPerMm) {
+          setCalibrationPxPerMm(data.pxPerMm);
+          setIsCalibrated(true);
+        }
+      } catch (e) {
+        // ignore JSON parse errors
+      }
+    }
+  }, []);
+
+  const CREDIT_CARD_WIDTH_MM = 85.60;
+  const CREDIT_CARD_HEIGHT_MM = 53.98;
+  const cardAspectRatio = CREDIT_CARD_HEIGHT_MM / CREDIT_CARD_WIDTH_MM;
+
+  const confirmCalibration = () => {
+    const pxPerMm = sliderValue / CREDIT_CARD_WIDTH_MM;
+    setCalibrationPxPerMm(pxPerMm);
+    setIsCalibrated(true);
+    setShowCalibration(false);
+    localStorage.setItem('dharaa_screen_calibration', JSON.stringify({
+      pxPerMm,
+      calibratedAt: new Date().toISOString(),
+      sliderPx: sliderValue
+    }));
+  };
+
+  const getRingDiameterPx = (sizeMm: number) => {
+    if (!calibrationPxPerMm) return 200; // fallback
+    return sizeMm * calibrationPxPerMm;
+  };
 
   // Section Refs for scroll targeting
   const heroRef = useRef<HTMLElement>(null);
@@ -356,65 +397,128 @@ function RingsPage() {
               </a>
             </motion.div>
 
-            {/* Right Side: Diagram */}
+            {/* Right Side: Dynamic Sizing or Calibration Panel */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex flex-col items-center justify-center p-8 bg-white border border-border relative"
+              className="flex flex-col items-center justify-center p-8 bg-white border border-border relative min-h-[420px]"
             >
-              {/* SVG Diagram */}
-              <div className="relative w-64 h-64 mb-10 mt-6">
-                <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-sm">
-                  {/* Outer Ring */}
-                  <motion.circle 
-                    cx="100" cy="100" r="80" 
-                    fill="none" stroke="#AB8C52" strokeWidth="2"
-                    initial={{ strokeDasharray: 505, strokeDashoffset: 505 }}
-                    whileInView={{ strokeDashoffset: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 2, ease: "easeInOut" }}
-                  />
-                  {/* Inner Ring */}
-                  <motion.circle 
-                    cx="100" cy="100" r="76" 
-                    fill="none" stroke="#e5e5e5" strokeWidth="1"
-                    initial={{ strokeDasharray: 480, strokeDashoffset: 480 }}
-                    whileInView={{ strokeDashoffset: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 2, ease: "easeInOut", delay: 0.2 }}
-                  />
-                  
-                  {/* Measurement Line */}
-                  <line x1="20" y1="100" x2="180" y2="100" stroke="#708090" strokeWidth="1" strokeDasharray="4 4" />
-                  <path d="M 25 95 L 20 100 L 25 105" fill="none" stroke="#708090" strokeWidth="1" />
-                  <path d="M 175 95 L 180 100 L 175 105" fill="none" stroke="#708090" strokeWidth="1" />
-                  
-                  {/* Measurement Text */}
-                  <rect x="75" y="88" width="50" height="24" fill="white" />
-                  <text x="100" y="104" textAnchor="middle" fill="#212121" fontSize="14" fontFamily="monospace" fontWeight="bold">
-                    {sizeToMm[selectedSize]}mm
-                  </text>
-                </svg>
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-widest text-slate bg-white px-3">
-                  Inner Diameter
-                </div>
-              </div>
-              
-              {/* Reference Table */}
-              <div className="w-full border-t border-border pt-6">
-                <div className="grid grid-cols-3 gap-4 text-center font-mono text-[10px] tracking-wider mb-2 text-slate font-semibold">
-                  <div>SIZE</div>
-                  <div>INNER Ø mm</div>
-                  <div>CIRCUMFERENCE mm</div>
-                </div>
-                <div className="grid grid-cols-3 gap-4 text-center font-mono text-[11px] text-ink py-2 bg-cream-soft border border-border">
-                  <div className="font-bold">{selectedSize}</div>
-                  <div>{sizeToMm[selectedSize]}</div>
-                  <div>{(sizeToMm[selectedSize] * Math.PI).toFixed(1)}</div>
-                </div>
-              </div>
+              <AnimatePresence mode="wait">
+                {(!isCalibrated || showCalibration) ? (
+                  /* CALIBRATION PANEL */
+                  <motion.div
+                    key="calibration"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="w-full flex flex-col items-center"
+                  >
+                    <span className="font-mono text-[9px] text-ink uppercase tracking-[0.25em] mb-4 font-bold border-b border-ink/20 pb-1">
+                      § CALIBRATE YOUR SCREEN
+                    </span>
+                    <p className="font-sans text-[12px] text-slate text-center max-w-[280px] mb-6">
+                      Place any standard card (credit, debit, PAN) flat on your screen. Adjust the slider until the blue box matches your card exactly.
+                    </p>
+
+                    {/* The Card Representation */}
+                    <div className="w-full overflow-hidden flex justify-center items-center h-[200px] bg-cream-soft border border-border/50 mb-6">
+                      <div 
+                        className="bg-ink/5 border-2 border-ink shadow-sm relative flex items-center justify-center transition-none"
+                        style={{ 
+                          width: `${sliderValue}px`, 
+                          height: `${sliderValue * cardAspectRatio}px`,
+                          maxWidth: '100%',
+                          maxHeight: '100%'
+                        }}
+                      >
+                        <span className="font-mono text-[9px] text-ink/40 tracking-widest text-center whitespace-pre-wrap">
+                          ISO 7810\n85.60mm
+                        </span>
+                      </div>
+                    </div>
+
+                    <input 
+                      type="range" 
+                      min="150" 
+                      max="600" 
+                      value={sliderValue} 
+                      onChange={(e) => setSliderValue(Number(e.target.value))}
+                      className="w-full max-w-[300px] mb-6 accent-ink"
+                    />
+
+                    <button 
+                      onClick={confirmCalibration}
+                      className="bg-ink text-white hover:bg-gold transition-colors duration-300 font-mono text-[10px] font-bold uppercase tracking-widest py-3 px-8 rounded-none w-full max-w-[300px]"
+                    >
+                      Confirm Calibration
+                    </button>
+                    <p className="font-sans text-[10px] text-slate mt-4 italic text-center">
+                      Calibration is saved for this device. You only need to do this once.
+                    </p>
+                  </motion.div>
+                ) : (
+                  /* TRUE-SIZE RING PREVIEW */
+                  <motion.div
+                    key="true-size-ring"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="w-full flex flex-col items-center"
+                  >
+                    <div className="flex justify-between items-center w-full mb-6">
+                      <span className="font-mono text-[9px] text-gold uppercase tracking-[0.25em] font-semibold">
+                        § CALIBRATED PREVIEW
+                      </span>
+                      <button 
+                        onClick={() => setShowCalibration(true)}
+                        className="font-mono text-[9px] text-slate hover:text-ink uppercase tracking-widest flex items-center gap-1 transition-colors"
+                      >
+                        <span className="text-xs">⚙</span> Recalibrate
+                      </button>
+                    </div>
+
+                    {/* Dynamic Ring Render */}
+                    <div className="relative flex justify-center items-center w-full min-h-[200px] mb-8">
+                      <motion.div 
+                        className="rounded-full border-2 border-gold flex items-center justify-center relative shadow-sm"
+                        animate={{ 
+                          width: getRingDiameterPx(sizeToMm[selectedSize]),
+                          height: getRingDiameterPx(sizeToMm[selectedSize])
+                        }}
+                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                      >
+                        {/* Measurement Line */}
+                        <div className="absolute w-full h-[1px] bg-slate/40" />
+                        <div className="absolute left-0 w-[1px] h-[6px] bg-slate/60" />
+                        <div className="absolute right-0 w-[1px] h-[6px] bg-slate/60" />
+                        <div className="bg-white px-2 py-0.5 z-10 font-mono text-[11px] text-ink font-bold shadow-[0_0_10px_white]">
+                          {sizeToMm[selectedSize]}mm
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    <p className="font-sans text-[12px] text-slate text-center max-w-[280px] mb-8">
+                      Place your ring on the screen. The inner edge should align with the gold circle perfectly.
+                    </p>
+
+                    {/* Reference Table */}
+                    <div className="w-full border-t border-border pt-6">
+                      <div className="grid grid-cols-3 gap-4 text-center font-mono text-[10px] tracking-wider mb-2 text-slate font-semibold">
+                        <div>SIZE</div>
+                        <div>INNER Ø mm</div>
+                        <div>CIRCUMFERENCE mm</div>
+                      </div>
+                      <div className="grid grid-cols-3 gap-4 text-center font-mono text-[11px] text-ink py-2 bg-cream-soft border border-border">
+                        <div className="font-bold">{selectedSize}</div>
+                        <div>{sizeToMm[selectedSize]}</div>
+                        <div>{(sizeToMm[selectedSize] * Math.PI).toFixed(1)}</div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
           </div>
