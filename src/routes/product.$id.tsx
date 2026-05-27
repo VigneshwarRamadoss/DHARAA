@@ -8,6 +8,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { Heart, Minus, Plus, ShoppingBag, Truck, Shield } from 'lucide-react';
 import { CartDrawer } from '@/components/CartDrawer';
 import { WishlistDrawer } from '@/components/WishlistDrawer';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 export const Route = createFileRoute('/product/$id')({
   component: ProductDetail,
@@ -101,12 +102,20 @@ function ProductDetail() {
                     Add to Cart
                   </button>
                   
-                  <button 
-                    onClick={() => toggleWishlist(product)}
-                    className="h-12 w-12 flex items-center justify-center border border-border bg-white hover:bg-cream transition-colors shrink-0"
-                  >
-                    <Heart size={20} className={wishlisted ? 'fill-red text-red' : 'text-ink'} />
-                  </button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button 
+                        onClick={() => toggleWishlist(product)}
+                        className="h-12 w-12 flex items-center justify-center border border-border bg-white hover:bg-cream transition-colors shrink-0"
+                        aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                      >
+                        <Heart size={20} className={wishlisted ? 'fill-red text-red' : 'text-ink'} />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">
+                      {wishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
 

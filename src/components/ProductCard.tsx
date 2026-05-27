@@ -4,6 +4,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { Product } from '@/data/products';
 import { Link } from '@tanstack/react-router';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 
 interface ProductCardProps {
   product: Product;
@@ -45,22 +46,29 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         />
 
         {/* Wishlist Button */}
-        <motion.button
-          onClick={(e) => { e.preventDefault(); toggleWishlist(product); }}
-          className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center bg-white border border-border opacity-0 group-hover:opacity-100 transition-opacity"
-          whileTap={{ scale: 0.9 }}
-          aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-        >
-          <motion.div
-            animate={wishlisted ? { scale: [1, 1.3, 1] } : { scale: 1 }}
-            transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
-          >
-            <Heart
-              size={16}
-              className={wishlisted ? 'fill-[#DC5656] text-[#DC5656]' : 'text-ink'}
-            />
-          </motion.div>
-        </motion.button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <motion.button
+              onClick={(e) => { e.preventDefault(); toggleWishlist(product); }}
+              className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center bg-white border border-border opacity-0 group-hover:opacity-100 transition-opacity"
+              whileTap={{ scale: 0.9 }}
+              aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+            >
+              <motion.div
+                animate={wishlisted ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+                transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+              >
+                <Heart
+                  size={16}
+                  className={wishlisted ? 'fill-[#DC5656] text-[#DC5656]' : 'text-ink'}
+                />
+              </motion.div>
+            </motion.button>
+          </TooltipTrigger>
+          <TooltipContent className="bg-ink text-background border border-border rounded-none text-[9px] tracking-widest uppercase py-1.5 px-2.5 shadow-md">
+            {wishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
+          </TooltipContent>
+        </Tooltip>
       </Link>
 
       {/* Text Area */}

@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { SearchModal } from "./SearchModal";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 import editorial from "@/assets/editorial.jpg";
 import p1 from "@/assets/p1.jpg";
@@ -54,22 +55,47 @@ export function Nav() {
 
         {/* Icons */}
         <div className="flex flex-1 items-center justify-end gap-5 text-ink">
-          <User className="hidden h-[18px] w-[18px] cursor-pointer transition hover:text-gold md:block" />
-          <button onClick={() => setIsSearchOpen(true)}>
-            <Search className="h-[18px] w-[18px] transition hover:text-gold" />
-          </button>
-          <button className="relative" onClick={() => setIsWishlistOpen(true)}>
-            <Heart className="h-[18px] w-[18px] transition hover:text-gold" />
-            {wishlistItems.length > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-red text-[10px] font-medium text-background">{wishlistItems.length}</span>
-            )}
-          </button>
-          <button className="relative" onClick={() => setIsCartOpen(true)}>
-            <ShoppingBag className="h-[18px] w-[18px] transition hover:text-gold" />
-            {cartCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[10px] font-medium text-background">{cartCount}</span>
-            )}
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button aria-label="Profile" className="hidden md:block">
+                <User className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Account Details</TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button onClick={() => setIsSearchOpen(true)} aria-label="Search">
+                <Search className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Search Catalog</TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="relative" onClick={() => setIsWishlistOpen(true)} aria-label="Wishlist">
+                <Heart className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
+                {wishlistItems.length > 0 && (
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-red text-[10px] font-medium text-background">{wishlistItems.length}</span>
+                )}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Your Wishlist</TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="relative" onClick={() => setIsCartOpen(true)} aria-label="Cart">
+                <ShoppingBag className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
+                {cartCount > 0 && (
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[10px] font-medium text-background">{cartCount}</span>
+                )}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Your Cart</TooltipContent>
+          </Tooltip>
         </div>
       </div>
 
