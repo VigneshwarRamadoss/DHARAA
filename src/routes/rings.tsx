@@ -434,7 +434,7 @@ function RingsPage() {
                         }}
                       >
                         <span className="font-mono text-[9px] text-ink/40 tracking-widest text-center whitespace-pre-wrap">
-                          ISO 7810\n85.60mm
+                          ISO 7810<br/>85.60mm
                         </span>
                       </div>
                     </div>
