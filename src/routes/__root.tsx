@@ -12,6 +12,7 @@ import {
 import appCss from "../styles.css?url";
 import { CartProvider } from "../contexts/CartContext";
 import { WishlistProvider } from "../contexts/WishlistContext";
+import { AccountProvider } from "../contexts/AccountContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 
@@ -122,18 +123,20 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <WishlistProvider>
-          <TooltipProvider delayDuration={200}>
-            <motion.div
-              className="pointer-events-none fixed left-0 right-0 top-[64px] z-[60] h-[2px] origin-left bg-gradient-to-r from-[#AB8C52] to-[#FC5927]"
-              style={{ scaleX: scrollYProgress }}
-            />
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-          </TooltipProvider>
-        </WishlistProvider>
-      </CartProvider>
+      <AccountProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <TooltipProvider delayDuration={200}>
+              <motion.div
+                className="pointer-events-none fixed left-0 right-0 top-[64px] z-[60] h-[2px] origin-left bg-gradient-to-r from-[#AB8C52] to-[#FC5927]"
+                style={{ scaleX: scrollYProgress }}
+              />
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+            </TooltipProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </AccountProvider>
     </QueryClientProvider>
   );
 }

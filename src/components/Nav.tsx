@@ -57,9 +57,9 @@ export function Nav() {
         <div className="flex flex-1 items-center justify-end gap-5 text-ink">
           <Tooltip>
             <TooltipTrigger asChild>
-              <button aria-label="Profile" className="hidden md:block">
+              <Link to="/account" aria-label="Profile" className="hidden md:block">
                 <User className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
-              </button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Account Details</TooltipContent>
           </Tooltip>
@@ -75,24 +75,44 @@ export function Nav() {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className="relative" onClick={() => setIsWishlistOpen(true)} aria-label="Wishlist">
+              <Link 
+                to="/wishlist" 
+                className="relative" 
+                onClick={(e) => {
+                  if (window.innerWidth < 768) {
+                    e.preventDefault();
+                    setIsWishlistOpen(true);
+                  }
+                }}
+                aria-label="Wishlist"
+              >
                 <Heart className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
                 {wishlistItems.length > 0 && (
                   <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-red text-[10px] font-medium text-background">{wishlistItems.length}</span>
                 )}
-              </button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Your Wishlist</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className="relative" onClick={() => setIsCartOpen(true)} aria-label="Cart">
+              <Link 
+                to="/cart" 
+                className="relative" 
+                onClick={(e) => {
+                  if (window.innerWidth < 768) {
+                    e.preventDefault();
+                    setIsCartOpen(true);
+                  }
+                }}
+                aria-label="Cart"
+              >
                 <ShoppingBag className="h-[18px] w-[18px] cursor-pointer transition hover:text-gold" />
                 {cartCount > 0 && (
                   <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[10px] font-medium text-background">{cartCount}</span>
                 )}
-              </button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent className="bg-ink text-background border border-border rounded-none text-[10px] tracking-widest uppercase py-2 px-3 font-semibold shadow-md">Your Cart</TooltipContent>
           </Tooltip>
