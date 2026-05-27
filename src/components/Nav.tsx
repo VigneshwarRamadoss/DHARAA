@@ -42,7 +42,7 @@ export function Nav() {
             <Link to="/shop" search={{ category: "all" }} className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Shop By</Link>
           </div>
           <Link to="/shop" search={{ category: "all" }} className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">New</Link>
-          <a href="/#categories" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Rings</a>
+          <Link to="/rings" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Rings</Link>
           <Link to="/necklaces" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Necklaces</Link>
           <Link to="/earrings" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Earrings</Link>
           <Link to="/about" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">About</Link>
@@ -121,6 +121,7 @@ export function Nav() {
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Rings</Link>
                   <Link to="/necklaces" className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">Necklaces Collection</Link>
                   <Link to="/earrings" className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">Earrings Collection</Link>
+                  <Link to="/rings" className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">Rings Collection</Link>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Bracelets</Link>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Fine Jewelry</Link>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors mt-2">Shop All New</Link>

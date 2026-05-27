@@ -230,6 +230,72 @@ export const mockProducts: Product[] = [
     image: "/src/assets/p1.jpg",
     is_active: true,
     stock: 30
+  },
+  {
+    id: "r1",
+    name: "Solis Gold Stacking Ring",
+    price: 249,
+    category: "Rings",
+    description: "A fluid, high-polish gold band designed for stacking. Minimalist everyday luxury.",
+    features: ["Stackable", "18k Gold Plated", "High Polish", "Anti-Tarnish"],
+    image: "/src/assets/p3.jpg",
+    is_active: true,
+    stock: 100
+  },
+  {
+    id: "r2",
+    name: "Dusk Oxidised Band",
+    price: 199,
+    category: "Rings",
+    description: "A statement band with a hammered texture in deep oxidized silver.",
+    features: ["Statement Piece", "Oxidised Silver Finish", "Hammered Texture", "Comfort Fit"],
+    image: "/src/assets/p2.jpg",
+    is_active: true,
+    stock: 45
+  },
+  {
+    id: "r3",
+    name: "Noor Pearl Cocktail Ring",
+    price: 549,
+    category: "Rings",
+    description: "An adjustable cocktail ring crowned with a beautiful freshwater pearl. Occasion ready.",
+    features: ["Freshwater Pearl", "Adjustable Size", "Cocktail Style", "18k Gold Plated"],
+    image: "/src/assets/p1.jpg",
+    is_active: true,
+    stock: 25
+  },
+  {
+    id: "r4",
+    name: "Vara Geometric Ring",
+    price: 349,
+    category: "Rings",
+    description: "A precision-cut architectural ring with a flat square face. Minimalist geometry.",
+    features: ["Geometric Design", "Precision Cut", "Anti-Tarnish", "Modernist"],
+    image: "/src/assets/p4.jpg",
+    is_active: true,
+    stock: 35
+  },
+  {
+    id: "r5",
+    name: "Amara Midi Set",
+    price: 149,
+    category: "Rings",
+    description: "A set of three thin, stackable bands designed to be worn on the upper fingers.",
+    features: ["Midi Ring Set", "Set of 3", "Ultra-Thin", "Everyday Wear"],
+    image: "/src/assets/p1.jpg",
+    is_active: true,
+    stock: 80
+  },
+  {
+    id: "r6",
+    name: "Raahi Adjustable Ring",
+    price: 89,
+    category: "Rings",
+    description: "An open-back, adjustable ring featuring a delicate leaf motif.",
+    features: ["Adjustable Size", "Leaf Motif", "Under ₹99", "Gifting"],
+    image: "/src/assets/p2.jpg",
+    is_active: true,
+    stock: 120
   }
 ];
 

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as RingsRouteImport } from './routes/rings'
 import { Route as NecklacesRouteImport } from './routes/necklaces'
 import { Route as EarringsRouteImport } from './routes/earrings'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -20,6 +21,11 @@ import { Route as ProductIdRouteImport } from './routes/product.$id'
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RingsRoute = RingsRouteImport.update({
+  id: '/rings',
+  path: '/rings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NecklacesRoute = NecklacesRouteImport.update({
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/earrings': typeof EarringsRoute
   '/necklaces': typeof NecklacesRoute
+  '/rings': typeof RingsRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/earrings': typeof EarringsRoute
   '/necklaces': typeof NecklacesRoute
+  '/rings': typeof RingsRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/earrings': typeof EarringsRoute
   '/necklaces': typeof NecklacesRoute
+  '/rings': typeof RingsRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/earrings'
     | '/necklaces'
+    | '/rings'
     | '/shop'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/earrings'
     | '/necklaces'
+    | '/rings'
     | '/shop'
     | '/product/$id'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/earrings'
     | '/necklaces'
+    | '/rings'
     | '/shop'
     | '/product/$id'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   EarringsRoute: typeof EarringsRoute
   NecklacesRoute: typeof NecklacesRoute
+  RingsRoute: typeof RingsRoute
   ShopRoute: typeof ShopRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rings': {
+      id: '/rings'
+      path: '/rings'
+      fullPath: '/rings'
+      preLoaderRoute: typeof RingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/necklaces': {
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   EarringsRoute: EarringsRoute,
   NecklacesRoute: NecklacesRoute,
+  RingsRoute: RingsRoute,
   ShopRoute: ShopRoute,
   ProductIdRoute: ProductIdRoute,
 }
