@@ -98,5 +98,138 @@ export const mockProducts: Product[] = [
     image: "/src/assets/p4.jpg",
     is_active: true,
     stock: 80
+  },
+  {
+    id: "n1",
+    name: "Aura Herringbone Chain",
+    price: 599,
+    category: "Necklaces",
+    description: "A sleek, liquid-gold herringbone chain that sits perfectly flat against the collarbone. Handcrafted in our Mumbai atelier with premium anti-tarnish coating.",
+    features: ["Anti-Tarnish", "18k Gold Plated", "Fluid Movement", "2-Year Guarantee"],
+    image: "/src/assets/p1.jpg",
+    is_active: true,
+    stock: 40
+  },
+  {
+    id: "n2",
+    name: "Zeenat Coin Pendant",
+    price: 449,
+    category: "Necklaces",
+    description: "Inspired by ancient temple coins, this pendant features an intricately carved motif suspended from a delicate cable chain. Beautiful layered or worn solo.",
+    features: ["Hand-Carved Motif", "High Polish", "Adjustable Length", "Atelier Exclusive"],
+    image: "/src/assets/p3.jpg",
+    is_active: true,
+    stock: 25
+  },
+  {
+    id: "n3",
+    name: "Devi Oxidised Layering Set",
+    price: 799,
+    category: "Necklaces",
+    description: "A pre-curated duo featuring a detailed choker and a longer crescent pendant in premium oxidized sterling silver finish. The ultimate festive statement.",
+    features: ["Pre-Layered Duo", "Oxidised Silver Finish", "Lightweight Alloy", "Generational Craft"],
+    image: "/src/assets/p2.jpg",
+    is_active: true,
+    stock: 15
+  },
+  {
+    id: "n4",
+    name: "Iris Minimalist Bar Necklace",
+    price: 299,
+    category: "Necklaces",
+    description: "A slender, high-polish gold bar suspended on a micro-cable chain. An understated statement of pure minimalist refinement.",
+    features: ["Ultra-Lightweight", "Anti-Tarnish Seal", "Seamless Clasp", "Everyday Staple"],
+    image: "/src/assets/p4.jpg",
+    is_active: true,
+    stock: 60
+  },
+  {
+    id: "n5",
+    name: "Kaya Seed Bead Strand",
+    price: 149,
+    category: "Necklaces",
+    description: "A playful, delicate strand of tiny matte-gold seed beads, hand-strung on durable steel wire. Sits high at the collarbone.",
+    features: ["Hand-Strung", "Matte Finish", "High-Durability Wire", "Perfect for Layering"],
+    image: "/src/assets/p1.jpg",
+    is_active: true,
+    stock: 100
+  },
+  {
+    id: "n6",
+    name: "Meera Pearl Station Necklace",
+    price: 499,
+    category: "Necklaces",
+    description: "Lustrous freshwater pearls spaced evenly along a fine, shimmering gold chain. A timeless bridge between traditional heritage and modern poise.",
+    features: ["Freshwater Pearls", "18k Gold Plated", "Gift Box Included", "Secure Lobster Clasp"],
+    image: "/src/assets/editorial.jpg",
+    is_active: true,
+    stock: 30
+  },
+  {
+    id: "e1",
+    name: "Rhea Ribbed Hoops",
+    price: 399,
+    category: "Earrings",
+    description: "Medium-sized chunky hoops featuring a vintage-inspired ribbed texture. Extremely lightweight and plated in a rich warm gold.",
+    features: ["Premium Hollow Tube", "18k Gold Plated", "Click-Secure Clasp", "Hypoallergenic"],
+    image: "/src/assets/p1.jpg",
+    is_active: true,
+    stock: 45
+  },
+  {
+    id: "e2",
+    name: "Mayur Oxidised Jhumkas",
+    price: 299,
+    category: "Earrings",
+    description: "Exquisite peacock-motif oxidized jhumkas featuring tiny silver beads that dance with your movements. A timeless classic.",
+    features: ["Generational Craft", "Detailed Engraving", "Comfort Weight", "Anti-Tarnish Sterling Silver Finish"],
+    image: "/src/assets/p2.jpg",
+    is_active: true,
+    stock: 35
+  },
+  {
+    id: "e3",
+    name: "Aria Pearl Drop Studs",
+    price: 199,
+    category: "Earrings",
+    description: "Lustrous white pearls suspended gracefully from tiny, high-polish gold studs. Effortless bridal or everyday elegance.",
+    features: ["Freshwater Pearls", "Anti-Tarnish Backing", "Comfort Fit Posts", "Perfect Gifting"],
+    image: "/src/assets/p3.jpg",
+    is_active: true,
+    stock: 50
+  },
+  {
+    id: "e4",
+    name: "Tara Statement Chandeliers",
+    price: 549,
+    category: "Earrings",
+    description: "Stunning tiered chandelier earrings that catch the light from every angle. Designed for grand celebrations and unforgettable nights.",
+    features: ["Multi-Tiered Design", "Faceted Quartz Accents", "Oxidised Silver Base", "Comfort Backing Included"],
+    image: "/src/assets/p4.jpg",
+    is_active: true,
+    stock: 20
+  },
+  {
+    id: "e5",
+    name: "Nila Celestial Studs Set",
+    price: 89,
+    category: "Earrings",
+    description: "A charming duo of micro-sized crescent moon and star studs, finished in polished silver. Designed for daily wear.",
+    features: ["Micro Scale", "925 Sterling Silver Plated", "Friction Post", "Everyday Comfort"],
+    image: "/src/assets/p4.jpg",
+    is_active: true,
+    stock: 120
+  },
+  {
+    id: "e6",
+    name: "Aditi Enamel Hoop Drops",
+    price: 249,
+    category: "Earrings",
+    description: "Dainty gold hoops featuring detachable drop charms coated in a rich, ivory enamel. Two styles in one gorgeous pair.",
+    features: ["Detachable Charms", "Hand-Painted Enamel", "18k Gold Plated", "Hypoallergenic Base"],
+    image: "/src/assets/p1.jpg",
+    is_active: true,
+    stock: 30
   }
 ];
+

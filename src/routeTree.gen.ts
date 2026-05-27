@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as NecklacesRouteImport } from './routes/necklaces'
+import { Route as EarringsRouteImport } from './routes/earrings'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +20,16 @@ import { Route as ProductIdRouteImport } from './routes/product.$id'
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NecklacesRoute = NecklacesRouteImport.update({
+  id: '/necklaces',
+  path: '/necklaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EarringsRoute = EarringsRouteImport.update({
+  id: '/earrings',
+  path: '/earrings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -45,6 +57,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/checkout': typeof CheckoutRoute
+  '/earrings': typeof EarringsRoute
+  '/necklaces': typeof NecklacesRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -52,6 +66,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/checkout': typeof CheckoutRoute
+  '/earrings': typeof EarringsRoute
+  '/necklaces': typeof NecklacesRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -60,21 +76,47 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/checkout': typeof CheckoutRoute
+  '/earrings': typeof EarringsRoute
+  '/necklaces': typeof NecklacesRoute
   '/shop': typeof ShopRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/checkout' | '/shop' | '/product/$id'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/checkout'
+    | '/earrings'
+    | '/necklaces'
+    | '/shop'
+    | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/checkout' | '/shop' | '/product/$id'
-  id: '__root__' | '/' | '/about' | '/checkout' | '/shop' | '/product/$id'
+  to:
+    | '/'
+    | '/about'
+    | '/checkout'
+    | '/earrings'
+    | '/necklaces'
+    | '/shop'
+    | '/product/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/checkout'
+    | '/earrings'
+    | '/necklaces'
+    | '/shop'
+    | '/product/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CheckoutRoute: typeof CheckoutRoute
+  EarringsRoute: typeof EarringsRoute
+  NecklacesRoute: typeof NecklacesRoute
   ShopRoute: typeof ShopRoute
   ProductIdRoute: typeof ProductIdRoute
 }
@@ -86,6 +128,20 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/necklaces': {
+      id: '/necklaces'
+      path: '/necklaces'
+      fullPath: '/necklaces'
+      preLoaderRoute: typeof NecklacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/earrings': {
+      id: '/earrings'
+      path: '/earrings'
+      fullPath: '/earrings'
+      preLoaderRoute: typeof EarringsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -123,6 +179,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CheckoutRoute: CheckoutRoute,
+  EarringsRoute: EarringsRoute,
+  NecklacesRoute: NecklacesRoute,
   ShopRoute: ShopRoute,
   ProductIdRoute: ProductIdRoute,
 }

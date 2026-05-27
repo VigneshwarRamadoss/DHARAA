@@ -43,8 +43,8 @@ export function Nav() {
           </div>
           <Link to="/shop" search={{ category: "all" }} className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">New</Link>
           <a href="/#categories" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Rings</a>
-          <a href="/#categories" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Necklaces</a>
-          <a href="/#categories" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Earrings</a>
+          <Link to="/necklaces" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Necklaces</Link>
+          <Link to="/earrings" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">Earrings</Link>
           <Link to="/about" className="transition hover:text-gold uppercase font-bold text-[11px] tracking-widest">About</Link>
         </nav>
 
@@ -119,8 +119,8 @@ export function Nav() {
                 <div className="flex flex-col gap-4">
                   <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink mb-2">Shop By Style</h4>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Rings</Link>
-                  <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Necklaces</Link>
-                  <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Earrings</Link>
+                  <Link to="/necklaces" className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">Necklaces Collection</Link>
+                  <Link to="/earrings" className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">Earrings Collection</Link>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Bracelets</Link>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors">New Fine Jewelry</Link>
                   <Link to="/shop" search={{ category: "all" }} className="font-sans text-[11px] uppercase tracking-wider text-slate hover:text-gold transition-colors mt-2">Shop All New</Link>
@@ -139,18 +139,18 @@ export function Nav() {
 
               {/* Image Features */}
               <div className="flex flex-1 gap-6">
-                <Link to="/shop" search={{ category: "anti-tarnish" }} className="group flex-1 block">
+                <Link to="/necklaces" className="group flex-1 block">
                   <div className="aspect-[4/5] bg-cream overflow-hidden mb-3">
-                    <img src={editorial} alt="Conscious Materials" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={editorial} alt="Conscious Necklaces" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
-                  <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink group-hover:text-gold transition-colors">Conscious Materials</h4>
+                  <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink group-hover:text-gold transition-colors">Conscious Necklaces</h4>
                 </Link>
                 
-                <Link to="/shop" search={{ category: "oxidised" }} className="group flex-1 block">
+                <Link to="/earrings" className="group flex-1 block">
                   <div className="aspect-[4/5] bg-cream overflow-hidden mb-3">
-                    <img src={p1} alt="Dharaa Exclusives" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={p1} alt="Artisan Earrings" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
-                  <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink group-hover:text-gold transition-colors">Dharaa Exclusives</h4>
+                  <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink group-hover:text-gold transition-colors">Artisan Earrings</h4>
                 </Link>
               </div>
 
