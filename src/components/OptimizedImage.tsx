@@ -59,8 +59,8 @@ export function OptimizedImage({
       className={`relative overflow-hidden ${className} ${aspectRatio ? `aspect-[${aspectRatio}]` : ""}`}
       style={aspectRatio ? { aspectRatio } : undefined}
     >
-      {/* Shimmer placeholder */}
-      {!loaded && (
+      {/* Shimmer placeholder (skipped for high-priority eager LCP images to prevent layout flash) */}
+      {!priority && !loaded && (
         <div className="absolute inset-0 bg-cream animate-pulse">
           <div
             className="absolute inset-0"
@@ -79,11 +79,11 @@ export function OptimizedImage({
           src={src}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
-          decoding="async"
+          decoding={priority ? "sync" : "async"}
           fetchPriority={priority ? "high" : "auto"}
           onLoad={() => setLoaded(true)}
-          initial={{ opacity: 0 }}
-          animate={loaded ? { opacity: 1 } : { opacity: 0 }}
+          initial={priority ? { opacity: 1 } : { opacity: 0 }}
+          animate={priority || loaded ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           whileHover={onHoverScale ? { scale: onHoverScale } : undefined}
           className={`w-full h-full ${objectFit} ${objectPosition}`}

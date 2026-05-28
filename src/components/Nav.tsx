@@ -25,9 +25,9 @@ export function Nav() {
 
   return (
     <motion.header
-      initial={{ y: -40, opacity: 0 }}
+      initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1], delay: 1.4 }}
+      transition={{ duration: 0.35, ease: "easeOut", delay: 0.1 }}
       onMouseLeave={() => setIsMegaMenuOpen(false)}
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
         scrolled || isMegaMenuOpen ? "bg-background shadow-sm" : "bg-transparent"
@@ -62,7 +62,10 @@ export function Nav() {
         </nav>
 
         {/* Logo */}
-        <Link to="/" className="font-display text-2xl tracking-[0.2em] text-ink md:text-3xl font-bold">
+        <Link 
+          to="/" 
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-2xl tracking-[0.2em] text-ink md:text-3xl font-bold z-10 transition-colors duration-300"
+        >
           DHARAA
         </Link>
 
