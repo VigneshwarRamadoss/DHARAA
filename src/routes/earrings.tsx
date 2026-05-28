@@ -10,6 +10,9 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import { useRef, useState, useMemo } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ChevronDown } from 'lucide-react';
+import heroImg from '@/assets/hero.jpg';
+import editorialImg from '@/assets/editorial.jpg';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/earrings')({
   component: EarringsPage,
@@ -92,9 +95,10 @@ function EarringsPage() {
             style={{ y: heroLeftY, willChange: "transform" }}
             className="absolute inset-0 w-full h-full parallax-el scale-105"
           >
-            <img 
-              src="/src/assets/hero.jpg" 
+            <OptimizedImage 
+              src={heroImg} 
               alt="DHARAA Earrings Editorial" 
+              priority={true}
               className="w-full h-full object-cover"
             />
             {/* Subtle overlay */}
@@ -343,10 +347,9 @@ function EarringsPage() {
                   style={{ willChange: "transform" }}
                 >
                   <Link to="/product/$id" params={{ id: filteredProducts[0].id }} className="block w-full h-full relative">
-                    <img
+                    <OptimizedImage
                       src={filteredProducts[0].image}
                       alt={filteredProducts[0].name}
-                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
@@ -423,12 +426,16 @@ function EarringsPage() {
 
         {/* Right Side: RAW Editorial Photography (col-span-6) */}
         <div className="col-span-1 md:col-span-6 min-h-[40vh] md:min-h-full overflow-hidden bg-cream relative">
-          <motion.img 
+          <motion.div
             style={{ scale: artisanImgScale, willChange: "transform" }}
-            src="/src/assets/editorial.jpg" 
-            alt="DHARAA Jewelry Artisan Craft detailed portrait" 
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000"
-          />
+            className="absolute inset-0 w-full h-full"
+          >
+            <OptimizedImage 
+              src={editorialImg} 
+              alt="DHARAA Jewelry Artisan Craft detailed portrait" 
+              className="w-full h-full object-cover transition-transform duration-1000"
+            />
+          </motion.div>
         </div>
       </section>
 

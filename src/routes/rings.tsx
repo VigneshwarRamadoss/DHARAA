@@ -10,6 +10,11 @@ import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence } fr
 import { useRef, useState, useMemo, useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ChevronDown, ArrowRight } from 'lucide-react';
+import editorialImg from '@/assets/editorial.jpg';
+import p1Img from '@/assets/p1.jpg';
+import p3Img from '@/assets/p3.jpg';
+import p4Img from '@/assets/p4.jpg';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/rings')({
   component: RingsPage,
@@ -161,9 +166,10 @@ function RingsPage() {
           style={{ y: heroBgY, willChange: "transform" }}
           className="absolute inset-0 w-full h-full parallax-el scale-105"
         >
-          <img 
-            src="/src/assets/editorial.jpg" 
+          <OptimizedImage 
+            src={editorialImg} 
             alt="DHARAA Rings Editorial" 
+            priority={true}
             className="w-full h-full object-cover object-[center_60%]"
           />
           {/* Editorial dark gradient overlay */}
@@ -769,12 +775,11 @@ function RingsPage() {
                 transition={{ duration: 0.3 }}
               >
                 <Link to="/product/$id" params={{ id: product.id }} className="block w-full h-full relative overflow-hidden">
-                  <motion.img 
+                  <OptimizedImage 
                     src={product.image} 
                     alt={product.name} 
                     className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.4 }}
+                    onHoverScale={1.05}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
                   
@@ -837,7 +842,7 @@ function RingsPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <img src="/src/assets/p3.jpg" alt="Foundation ring band" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p3Img} alt="Foundation ring band" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             <span className="absolute bottom-4 left-4 bg-background border border-border px-3 py-1.5 font-mono text-[9px] text-ink uppercase tracking-widest shadow-sm">
               The Foundation Band
@@ -854,7 +859,7 @@ function RingsPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             >
-              <img src="/src/assets/p4.jpg" alt="Statement ring" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p4Img} alt="Statement ring" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             <span className="absolute bottom-4 left-4 bg-background border border-border px-3 py-1.5 font-mono text-[9px] text-ink uppercase tracking-widest shadow-sm">
               The Statement Piece
@@ -871,7 +876,7 @@ function RingsPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              <img src="/src/assets/p1.jpg" alt="Finishing touch ring" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p1Img} alt="Finishing touch ring" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             <span className="absolute bottom-4 left-4 bg-background border border-border px-3 py-1.5 font-mono text-[9px] text-ink uppercase tracking-widest shadow-sm">
               The Finishing Touch

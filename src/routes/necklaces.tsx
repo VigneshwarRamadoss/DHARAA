@@ -9,7 +9,11 @@ import { WishlistDrawer } from '@/components/WishlistDrawer';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useRef, useState, useMemo } from 'react';
 import { Link } from '@tanstack/react-router';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
+import p2Img from '@/assets/p2.jpg';
+import p1Img from '@/assets/p1.jpg';
+import editorialImg from '@/assets/editorial.jpg';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/necklaces')({
   component: NecklacesPage,
@@ -93,10 +97,11 @@ function NecklacesPage() {
           style={{ y: heroBgY, willChange: "transform" }}
           className="absolute inset-0 w-full h-full parallax-el scale-105"
         >
-          <img 
-            src="/src/assets/editorial.jpg" 
-            alt="DHARAA Necklace Editorial" 
-            className="w-full h-full object-cover object-[center_35%]"
+          <OptimizedImage 
+            src={p2Img} 
+            alt="DHARAA Necklaces Editorial" 
+            priority={true}
+            className="w-full h-full object-cover object-[center_30%]"
           />
           {/* Editorial dark gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-black/75" />
@@ -385,7 +390,7 @@ function NecklacesPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <img src="/src/assets/p1.jpg" alt="16-inch collar necklace detailed view" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p1Img} alt="16-inch collar necklace detailed view" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             {/* Left-anchored floating mono label */}
             <span className="absolute bottom-4 left-4 bg-background border border-border px-3 py-1.5 font-mono text-[9px] text-ink uppercase tracking-widest shadow-sm">
@@ -403,7 +408,7 @@ function NecklacesPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             >
-              <img src="/src/assets/editorial.jpg" alt="20-inch princess pendant detailed view" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={editorialImg} alt="20-inch princess pendant detailed view" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             {/* Left-anchored floating mono label */}
             <span className="absolute bottom-4 left-4 bg-background border border-border px-3 py-1.5 font-mono text-[9px] text-ink uppercase tracking-widest shadow-sm">
@@ -421,7 +426,7 @@ function NecklacesPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              <img src="/src/assets/p2.jpg" alt="24-inch opera necklace detailed view" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p2Img} alt="24-inch opera necklace detailed view" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             {/* Left-anchored floating mono label */}
             <span className="absolute bottom-4 left-4 bg-background border border-border px-3 py-1.5 font-mono text-[9px] text-ink uppercase tracking-widest shadow-sm">

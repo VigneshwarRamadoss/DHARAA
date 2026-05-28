@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useState } from 'react';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 // Form validation schema
 const checkoutSchema = z.object({
@@ -246,7 +247,7 @@ function CheckoutPage() {
                 <div className="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2">
                   {items.map(({ product, quantity }) => (
                     <div key={product.id} className="flex gap-4">
-                      <img src={product.image} alt="" className="w-16 h-16 object-cover border border-border" />
+                      <OptimizedImage src={product.image} alt="" className="w-16 h-16 object-cover border border-border" />
                       <div className="flex-1">
                         <h4 className="font-sans text-sm text-ink line-clamp-1">{product.name}</h4>
                         <p className="font-sans text-xs text-slate mt-1">Qty: {quantity}</p>

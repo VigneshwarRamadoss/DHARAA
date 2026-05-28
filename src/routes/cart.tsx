@@ -10,6 +10,7 @@ import { mockProducts } from '@/data/products';
 import { useMemo } from 'react';
 import { CartDrawer } from '@/components/CartDrawer';
 import { WishlistDrawer } from '@/components/WishlistDrawer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/cart')({
   component: CartPage,
@@ -101,7 +102,7 @@ function CartPage() {
                 >
                   {/* Image */}
                   <Link to="/product/$id" params={{ id: item.product.id }} className="shrink-0">
-                    <img 
+                    <OptimizedImage 
                       src={item.product.image} 
                       alt={item.product.name} 
                       className="w-24 h-24 md:w-32 md:h-32 object-cover border border-border"

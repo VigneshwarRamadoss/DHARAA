@@ -11,6 +11,7 @@ import { mockProducts } from '@/data/products';
 import { useMemo } from 'react';
 import { CartDrawer } from '@/components/CartDrawer';
 import { WishlistDrawer } from '@/components/WishlistDrawer';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/wishlist')({
   component: WishlistPage,
@@ -145,7 +146,7 @@ function WishlistPage() {
                   whileHover={{ y: -4 }}
                 >
                   <div className={`relative w-full overflow-hidden border border-white/10 ${isHero ? 'aspect-[4/3] md:aspect-[16/9]' : 'aspect-[3/4]'}`}>
-                    <img 
+                    <OptimizedImage 
                       src={item.image} 
                       alt={item.name} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
