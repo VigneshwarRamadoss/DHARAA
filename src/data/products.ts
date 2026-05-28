@@ -1,3 +1,9 @@
+import p1 from "@/assets/p1.jpg";
+import p2 from "@/assets/p2.jpg";
+import p3 from "@/assets/p3.jpg";
+import p4 from "@/assets/p4.jpg";
+import editorial from "@/assets/editorial.jpg";
+
 export interface Product {
   id: string;
   name: string;
@@ -18,7 +24,7 @@ export const mockProducts: Product[] = [
     category: "Anti-Tarnish",
     description: "Everyday gold hoops that never lose their shine. Perfect for a minimal look or stacking with other earrings. Handcrafted from premium anti-tarnish alloy.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 50
   },
@@ -29,7 +35,7 @@ export const mockProducts: Product[] = [
     category: "Oxidised",
     description: "Traditional oxidized jhumkas reimagined for everyday wear. Lightweight and exquisitely detailed.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p2.jpg",
+    image: p2,
     is_active: true,
     stock: 35
   },
@@ -40,7 +46,7 @@ export const mockProducts: Product[] = [
     category: "Gift Combos",
     description: "A beautiful rose quartz pendant with matching stud earrings. The perfect gift for someone special.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p3.jpg",
+    image: p3,
     is_active: true,
     stock: 12
   },
@@ -51,7 +57,7 @@ export const mockProducts: Product[] = [
     category: "Under ₹99",
     description: "A delicate silver ring perfect for stacking or wearing on its own. Beautifully simple.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p4.jpg",
+    image: p4,
     is_active: true,
     stock: 100
   },
@@ -62,7 +68,7 @@ export const mockProducts: Product[] = [
     category: "Anti-Tarnish",
     description: "Elegant pearl drop earrings set in anti-tarnish gold plating. A timeless classic for any occasion.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 25
   },
@@ -73,7 +79,7 @@ export const mockProducts: Product[] = [
     category: "Oxidised",
     description: "Make a statement with this beautifully detailed oxidised silver choker. Pairs wonderfully with traditional and fusion wear.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p2.jpg",
+    image: p2,
     is_active: true,
     stock: 15
   },
@@ -84,7 +90,7 @@ export const mockProducts: Product[] = [
     category: "Gift Combos",
     description: "A set of three minimalist stud earrings for everyday wear. Includes gold balls, cubic zirconia, and tiny pearls.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p3.jpg",
+    image: p3,
     is_active: true,
     stock: 40
   },
@@ -95,7 +101,7 @@ export const mockProducts: Product[] = [
     category: "Under ₹99",
     description: "A set of three thin, textured bangles. Lightweight and perfect for creating that satisfying jingle.",
     features: ["Premium materials", "Handcrafted", "Easy maintenance", "Gifting"],
-    image: "/src/assets/p4.jpg",
+    image: p4,
     is_active: true,
     stock: 80
   },
@@ -106,7 +112,7 @@ export const mockProducts: Product[] = [
     category: "Necklaces",
     description: "A sleek, liquid-gold herringbone chain that sits perfectly flat against the collarbone. Handcrafted in our Mumbai atelier with premium anti-tarnish coating.",
     features: ["Anti-Tarnish", "18k Gold Plated", "Fluid Movement", "2-Year Guarantee"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 40
   },
@@ -117,7 +123,7 @@ export const mockProducts: Product[] = [
     category: "Necklaces",
     description: "Inspired by ancient temple coins, this pendant features an intricately carved motif suspended from a delicate cable chain. Beautiful layered or worn solo.",
     features: ["Hand-Carved Motif", "High Polish", "Adjustable Length", "Atelier Exclusive"],
-    image: "/src/assets/p3.jpg",
+    image: p3,
     is_active: true,
     stock: 25
   },
@@ -128,7 +134,7 @@ export const mockProducts: Product[] = [
     category: "Necklaces",
     description: "A pre-curated duo featuring a detailed choker and a longer crescent pendant in premium oxidized sterling silver finish. The ultimate festive statement.",
     features: ["Pre-Layered Duo", "Oxidised Silver Finish", "Lightweight Alloy", "Generational Craft"],
-    image: "/src/assets/p2.jpg",
+    image: p2,
     is_active: true,
     stock: 15
   },
@@ -139,7 +145,7 @@ export const mockProducts: Product[] = [
     category: "Necklaces",
     description: "A slender, high-polish gold bar suspended on a micro-cable chain. An understated statement of pure minimalist refinement.",
     features: ["Ultra-Lightweight", "Anti-Tarnish Seal", "Seamless Clasp", "Everyday Staple"],
-    image: "/src/assets/p4.jpg",
+    image: p4,
     is_active: true,
     stock: 60
   },
@@ -150,7 +156,7 @@ export const mockProducts: Product[] = [
     category: "Necklaces",
     description: "A playful, delicate strand of tiny matte-gold seed beads, hand-strung on durable steel wire. Sits high at the collarbone.",
     features: ["Hand-Strung", "Matte Finish", "High-Durability Wire", "Perfect for Layering"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 100
   },
@@ -161,7 +167,7 @@ export const mockProducts: Product[] = [
     category: "Necklaces",
     description: "Lustrous freshwater pearls spaced evenly along a fine, shimmering gold chain. A timeless bridge between traditional heritage and modern poise.",
     features: ["Freshwater Pearls", "18k Gold Plated", "Gift Box Included", "Secure Lobster Clasp"],
-    image: "/src/assets/editorial.jpg",
+    image: editorial,
     is_active: true,
     stock: 30
   },
@@ -172,7 +178,7 @@ export const mockProducts: Product[] = [
     category: "Earrings",
     description: "Medium-sized chunky hoops featuring a vintage-inspired ribbed texture. Extremely lightweight and plated in a rich warm gold.",
     features: ["Premium Hollow Tube", "18k Gold Plated", "Click-Secure Clasp", "Hypoallergenic"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 45
   },
@@ -183,7 +189,7 @@ export const mockProducts: Product[] = [
     category: "Earrings",
     description: "Exquisite peacock-motif oxidized jhumkas featuring tiny silver beads that dance with your movements. A timeless classic.",
     features: ["Generational Craft", "Detailed Engraving", "Comfort Weight", "Anti-Tarnish Sterling Silver Finish"],
-    image: "/src/assets/p2.jpg",
+    image: p2,
     is_active: true,
     stock: 35
   },
@@ -194,7 +200,7 @@ export const mockProducts: Product[] = [
     category: "Earrings",
     description: "Lustrous white pearls suspended gracefully from tiny, high-polish gold studs. Effortless bridal or everyday elegance.",
     features: ["Freshwater Pearls", "Anti-Tarnish Backing", "Comfort Fit Posts", "Perfect Gifting"],
-    image: "/src/assets/p3.jpg",
+    image: p3,
     is_active: true,
     stock: 50
   },
@@ -205,7 +211,7 @@ export const mockProducts: Product[] = [
     category: "Earrings",
     description: "Stunning tiered chandelier earrings that catch the light from every angle. Designed for grand celebrations and unforgettable nights.",
     features: ["Multi-Tiered Design", "Faceted Quartz Accents", "Oxidised Silver Base", "Comfort Backing Included"],
-    image: "/src/assets/p4.jpg",
+    image: p4,
     is_active: true,
     stock: 20
   },
@@ -216,7 +222,7 @@ export const mockProducts: Product[] = [
     category: "Earrings",
     description: "A charming duo of micro-sized crescent moon and star studs, finished in polished silver. Designed for daily wear.",
     features: ["Micro Scale", "925 Sterling Silver Plated", "Friction Post", "Everyday Comfort"],
-    image: "/src/assets/p4.jpg",
+    image: p4,
     is_active: true,
     stock: 120
   },
@@ -227,7 +233,7 @@ export const mockProducts: Product[] = [
     category: "Earrings",
     description: "Dainty gold hoops featuring detachable drop charms coated in a rich, ivory enamel. Two styles in one gorgeous pair.",
     features: ["Detachable Charms", "Hand-Painted Enamel", "18k Gold Plated", "Hypoallergenic Base"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 30
   },
@@ -238,7 +244,7 @@ export const mockProducts: Product[] = [
     category: "Rings",
     description: "A fluid, high-polish gold band designed for stacking. Minimalist everyday luxury.",
     features: ["Stackable", "18k Gold Plated", "High Polish", "Anti-Tarnish"],
-    image: "/src/assets/p3.jpg",
+    image: p3,
     is_active: true,
     stock: 100
   },
@@ -249,7 +255,7 @@ export const mockProducts: Product[] = [
     category: "Rings",
     description: "A statement band with a hammered texture in deep oxidized silver.",
     features: ["Statement Piece", "Oxidised Silver Finish", "Hammered Texture", "Comfort Fit"],
-    image: "/src/assets/p2.jpg",
+    image: p2,
     is_active: true,
     stock: 45
   },
@@ -260,7 +266,7 @@ export const mockProducts: Product[] = [
     category: "Rings",
     description: "An adjustable cocktail ring crowned with a beautiful freshwater pearl. Occasion ready.",
     features: ["Freshwater Pearl", "Adjustable Size", "Cocktail Style", "18k Gold Plated"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 25
   },
@@ -271,7 +277,7 @@ export const mockProducts: Product[] = [
     category: "Rings",
     description: "A precision-cut architectural ring with a flat square face. Minimalist geometry.",
     features: ["Geometric Design", "Precision Cut", "Anti-Tarnish", "Modernist"],
-    image: "/src/assets/p4.jpg",
+    image: p4,
     is_active: true,
     stock: 35
   },
@@ -282,7 +288,7 @@ export const mockProducts: Product[] = [
     category: "Rings",
     description: "A set of three thin, stackable bands designed to be worn on the upper fingers.",
     features: ["Midi Ring Set", "Set of 3", "Ultra-Thin", "Everyday Wear"],
-    image: "/src/assets/p1.jpg",
+    image: p1,
     is_active: true,
     stock: 80
   },
@@ -293,7 +299,7 @@ export const mockProducts: Product[] = [
     category: "Rings",
     description: "An open-back, adjustable ring featuring a delicate leaf motif.",
     features: ["Adjustable Size", "Leaf Motif", "Under ₹99", "Gifting"],
-    image: "/src/assets/p2.jpg",
+    image: p2,
     is_active: true,
     stock: 120
   }
