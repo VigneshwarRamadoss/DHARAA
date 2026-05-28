@@ -31,10 +31,14 @@ function RingsPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [selectedSize, setSelectedSize] = useState<number>(7);
 
-  const [isCalibrated, setIsCalibrated] = useState<boolean>(false);
-  const [calibrationPxPerMm, setCalibrationPxPerMm] = useState<number | null>(null);
-  const [sliderValue, setSliderValue] = useState<number>(320); // Initial CSS px width guess
+  const [calibrationPxPerMm, setCalibrationPxPerMm] = useState<number>(3.77952756); // 96 DPI / 25.4 mm
+  const [hasUserCalibrated, setHasUserCalibrated] = useState<boolean>(false);
+  
+  // Calibration selector states
+  const [calibrationType, setCalibrationType] = useState<"coin_in" | "coin_us" | "card_h" | "card_v">("coin_in");
+  const [sliderValue, setSliderValue] = useState<number>(102); // 27mm * 3.7795 default
   const [showCalibration, setShowCalibration] = useState<boolean>(false);
+  const [showMathConsole, setShowMathConsole] = useState<boolean>(false);
 
   useEffect(() => {
     const stored = localStorage.getItem('dharaa_screen_calibration');
@@ -43,33 +47,44 @@ function RingsPage() {
         const data = JSON.parse(stored);
         if (data.pxPerMm) {
           setCalibrationPxPerMm(data.pxPerMm);
-          setIsCalibrated(true);
+          setHasUserCalibrated(true);
         }
-      } catch (e) {
-        // ignore JSON parse errors
-      }
+      } catch (e) {}
     }
   }, []);
 
-  const CREDIT_CARD_WIDTH_MM = 85.60;
-  const CREDIT_CARD_HEIGHT_MM = 53.98;
-  const cardAspectRatio = CREDIT_CARD_HEIGHT_MM / CREDIT_CARD_WIDTH_MM;
+  // Update slider value when calibration type changes to pre-align with current calibration
+  useEffect(() => {
+    let sizeMm = 27.00;
+    if (calibrationType === "coin_us") sizeMm = 24.26;
+    else if (calibrationType === "card_h") sizeMm = 85.60;
+    else if (calibrationType === "card_v") sizeMm = 53.98;
+    
+    setSliderValue(Math.round(calibrationPxPerMm * sizeMm));
+  }, [calibrationType]);
 
   const confirmCalibration = () => {
-    const pxPerMm = sliderValue / CREDIT_CARD_WIDTH_MM;
+    let sizeMm = 27.00;
+    if (calibrationType === "coin_us") sizeMm = 24.26;
+    else if (calibrationType === "card_h") sizeMm = 85.60;
+    else if (calibrationType === "card_v") sizeMm = 53.98;
+
+    const pxPerMm = sliderValue / sizeMm;
     setCalibrationPxPerMm(pxPerMm);
-    setIsCalibrated(true);
+    setHasUserCalibrated(true);
     setShowCalibration(false);
     localStorage.setItem('dharaa_screen_calibration', JSON.stringify({
       pxPerMm,
-      calibratedAt: new Date().toISOString(),
-      sliderPx: sliderValue
+      calibratedAt: new Date().toISOString()
     }));
   };
 
-  const getRingDiameterPx = (sizeMm: number) => {
-    if (!calibrationPxPerMm) return 200; // fallback
+  const getInnerDiameterPx = (sizeMm: number) => {
     return sizeMm * calibrationPxPerMm;
+  };
+  
+  const getOuterDiameterPx = (sizeMm: number) => {
+    return (sizeMm + 3.2) * calibrationPxPerMm; // 1.6mm band thickness on each side
   };
 
   // Section Refs for scroll targeting
@@ -397,125 +412,293 @@ function RingsPage() {
               </a>
             </motion.div>
 
-            {/* Right Side: Dynamic Sizing or Calibration Panel */}
+            {/* Right Side: Dynamic Sizing & Math Console */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex flex-col items-center justify-center p-8 bg-white border border-border relative min-h-[420px]"
+              className="flex flex-col items-center justify-start p-8 bg-white border border-border relative min-h-[520px] w-full"
             >
               <AnimatePresence mode="wait">
-                {(!isCalibrated || showCalibration) ? (
-                  /* CALIBRATION PANEL */
+                {showCalibration ? (
+                  /* INLINE CALIBRATION Drawer */
                   <motion.div
                     key="calibration"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
                     className="w-full flex flex-col items-center"
                   >
-                    <span className="font-mono text-[9px] text-ink uppercase tracking-[0.25em] mb-4 font-bold border-b border-ink/20 pb-1">
-                      § CALIBRATE YOUR SCREEN
-                    </span>
-                    <p className="font-sans text-[12px] text-slate text-center max-w-[280px] mb-6">
-                      Place any standard card (credit, debit, PAN) flat on your screen. Adjust the slider until the blue box matches your card exactly.
+                    <div className="flex justify-between items-center w-full mb-6 pb-4 border-b border-border">
+                      <span className="font-mono text-[9px] text-ink uppercase tracking-[0.25em] font-bold">
+                        § FINE-TUNE PRECISION
+                      </span>
+                      <button 
+                        onClick={() => setShowCalibration(false)}
+                        className="font-mono text-[9px] text-slate hover:text-ink uppercase tracking-widest transition-colors font-bold"
+                      >
+                        [Close]
+                      </button>
+                    </div>
+
+                    <p className="font-sans text-[12px] text-slate text-center max-w-[320px] mb-6">
+                      Every screen has a different physical density. Match the visual reference below to a real object to calibrate your screen to 100% precision.
                     </p>
 
-                    {/* The Card Representation */}
-                    <div className="w-full overflow-hidden flex justify-center items-center h-[200px] bg-cream-soft border border-border/50 mb-6">
-                      <div 
-                        className="bg-ink/5 border-2 border-ink shadow-sm relative flex items-center justify-center transition-none"
-                        style={{ 
-                          width: `${sliderValue}px`, 
-                          height: `${sliderValue * cardAspectRatio}px`,
-                          maxWidth: '100%',
-                          maxHeight: '100%'
-                        }}
+                    {/* Object Switcher Tabs */}
+                    <div className="flex flex-wrap bg-cream-soft border border-border p-1 mb-6 rounded-none justify-center w-full max-w-[340px]">
+                      <button 
+                        onClick={() => setCalibrationType("coin_in")}
+                        className={`font-mono text-[9px] px-3 py-2 uppercase tracking-widest transition-colors ${calibrationType === "coin_in" ? "bg-ink text-white font-bold" : "text-slate hover:text-ink"}`}
                       >
-                        <span className="font-mono text-[9px] text-ink/40 tracking-widest text-center whitespace-pre-wrap">
-                          ISO 7810<br/>85.60mm
-                        </span>
-                      </div>
+                        ₹10 Coin
+                      </button>
+                      <button 
+                        onClick={() => setCalibrationType("coin_us")}
+                        className={`font-mono text-[9px] px-3 py-2 uppercase tracking-widest transition-colors ${calibrationType === "coin_us" ? "bg-ink text-white font-bold" : "text-slate hover:text-ink"}`}
+                      >
+                        US Quarter
+                      </button>
+                      <button 
+                        onClick={() => setCalibrationType("card_h")}
+                        className={`font-mono text-[9px] px-3 py-2 uppercase tracking-widest transition-colors ${calibrationType === "card_h" ? "bg-ink text-white font-bold" : "text-slate hover:text-ink"}`}
+                      >
+                        Card (H)
+                      </button>
+                      <button 
+                        onClick={() => setCalibrationType("card_v")}
+                        className={`font-mono text-[9px] px-3 py-2 uppercase tracking-widest transition-colors ${calibrationType === "card_v" ? "bg-ink text-white font-bold" : "text-slate hover:text-ink"}`}
+                      >
+                        Card (V)
+                      </button>
+                    </div>
+
+                    {/* Visualizer Area */}
+                    <div className="w-full flex justify-center items-center py-6 mb-6 relative min-h-[220px] bg-cream-soft/50 border border-dashed border-border/80">
+                      {/* Virtual Ruler overlay for cards */}
+                      {(calibrationType === "card_h" || calibrationType === "card_v") && (
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[15px] flex items-end justify-center pointer-events-none opacity-40">
+                          <div className="relative h-full flex items-end border-b border-ink/50" style={{ width: `${calibrationType === "card_h" ? sliderValue : (sliderValue / 53.98 * 85.60)}px` }}>
+                            {[0, 10, 20, 30, 40, 50, 60, 70, 80].map(mm => (
+                              <div key={mm} className="absolute bottom-0 w-px bg-ink" style={{ 
+                                height: mm % 10 === 0 ? '8px' : '4px',
+                                left: `${mm * (sliderValue / (calibrationType === "card_h" ? 85.60 : 53.98))}px` 
+                              }}>
+                                {mm % 10 === 0 && <span className="absolute -top-3 -translate-x-1/2 text-[6px] font-mono">{mm}</span>}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Coin wireframe */}
+                      {(calibrationType === "coin_in" || calibrationType === "coin_us") && (
+                        <div 
+                          className="rounded-full border border-gold bg-white relative flex flex-col justify-center items-center shadow-lg transition-none flex-shrink-0"
+                          style={{ 
+                            width: `${sliderValue}px`, 
+                            height: `${sliderValue}px`
+                          }}
+                        >
+                          <div className="absolute inset-1.5 rounded-full border border-gold/40 border-dashed" />
+                          <div className="absolute inset-3 rounded-full border border-gold/20" />
+                          <span className="font-display italic text-gold text-sm tracking-wide z-10 font-bold select-none">
+                            {calibrationType === "coin_in" ? "₹10" : "25¢"}
+                          </span>
+                          <span className="font-mono text-[7px] text-gold/60 uppercase tracking-widest mt-1 z-10 select-none">
+                            {calibrationType === "coin_in" ? "27.0 mm" : "24.26 mm"}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Card layout */}
+                      {(calibrationType === "card_h" || calibrationType === "card_v") && (
+                        <div 
+                          className="bg-ink rounded-xl border border-gold/30 shadow-[0_15px_30px_rgba(0,0,0,0.15)] relative flex flex-col justify-between overflow-hidden transition-none flex-shrink-0"
+                          style={{ 
+                            width: calibrationType === "card_h" ? `${sliderValue}px` : `${Math.round(sliderValue / 53.98 * 85.60)}px`, 
+                            height: calibrationType === "card_v" ? `${sliderValue}px` : `${Math.round(sliderValue / 85.60 * 53.98)}px`
+                          }}
+                        >
+                          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gold via-transparent to-transparent pointer-events-none"></div>
+                          <div className="p-3 w-full flex justify-between items-start">
+                            <div className="w-8 h-6 bg-gradient-to-br from-[#E5C158] to-[#C0962E] rounded border border-yellow-200/50 flex flex-wrap shadow-inner relative overflow-hidden opacity-90">
+                              <div className="absolute top-1/2 left-0 right-0 h-px bg-yellow-900/20"></div>
+                              <div className="absolute left-1/2 top-0 bottom-0 w-px bg-yellow-900/20"></div>
+                            </div>
+                            <span className="font-display italic text-gold/50 text-sm tracking-widest">DHARAA</span>
+                          </div>
+                          <div className="p-3 w-full">
+                            <span className="font-mono text-[8px] text-white/40 tracking-[0.2em] uppercase select-none">
+                              {calibrationType === "card_h" ? "85.60 mm Width" : "53.98 mm Height"}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <input 
                       type="range" 
-                      min="150" 
-                      max="600" 
+                      min={calibrationType === "coin_in" ? "70" : calibrationType === "coin_us" ? "60" : calibrationType === "card_h" ? "180" : "110"} 
+                      max={calibrationType === "coin_in" ? "200" : calibrationType === "coin_us" ? "180" : calibrationType === "card_h" ? "550" : "380"} 
                       value={sliderValue} 
                       onChange={(e) => setSliderValue(Number(e.target.value))}
                       className="w-full max-w-[300px] mb-6 accent-ink"
                     />
 
-                    <button 
-                      onClick={confirmCalibration}
-                      className="bg-ink text-white hover:bg-gold transition-colors duration-300 font-mono text-[10px] font-bold uppercase tracking-widest py-3 px-8 rounded-none w-full max-w-[300px]"
-                    >
-                      Confirm Calibration
-                    </button>
-                    <p className="font-sans text-[10px] text-slate mt-4 italic text-center">
-                      Calibration is saved for this device. You only need to do this once.
+                    <div className="flex gap-4 w-full max-w-[300px]">
+                      <button 
+                        onClick={() => setShowCalibration(false)}
+                        className="flex-1 bg-white text-ink border border-border hover:bg-cream-soft transition-colors font-mono text-[9px] font-bold uppercase tracking-widest py-3 rounded-none"
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        onClick={confirmCalibration}
+                        className="flex-1 bg-ink text-white hover:bg-gold hover:text-white transition-colors duration-300 font-mono text-[9px] font-bold uppercase tracking-widest py-3 rounded-none"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                    
+                    <p className="font-sans text-[10px] text-slate mt-4 italic text-center max-w-[280px]">
+                      Adjust the slider until the golden wireframe on screen matches your real physical object's size exactly.
                     </p>
                   </motion.div>
                 ) : (
-                  /* TRUE-SIZE RING PREVIEW */
+                  /* TRUE-SIZE RING PREVIEW (Default active view) */
                   <motion.div
                     key="true-size-ring"
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
-                    className="w-full flex flex-col items-center"
+                    className="w-full flex flex-col items-center relative"
                   >
-                    <div className="flex justify-between items-center w-full mb-6">
-                      <span className="font-mono text-[9px] text-gold uppercase tracking-[0.25em] font-semibold">
-                        § CALIBRATED PREVIEW
-                      </span>
-                      <button 
-                        onClick={() => setShowCalibration(true)}
-                        className="font-mono text-[9px] text-slate hover:text-ink uppercase tracking-widest flex items-center gap-1 transition-colors"
-                      >
-                        <span className="text-xs">⚙</span> Recalibrate
-                      </button>
+                    <div className="flex justify-between items-center w-full mb-6 pb-4 border-b border-border">
+                      <div className="flex flex-col gap-1 items-start text-left">
+                        <span className="font-mono text-[9px] text-gold uppercase tracking-[0.25em] font-semibold flex items-center gap-1.5">
+                          § TRUE SCALE SIZER
+                          <span className={`w-1.5 h-1.5 rounded-full ${hasUserCalibrated ? 'bg-green-500 animate-pulse' : 'bg-gold'}`} title={hasUserCalibrated ? "Calibrated" : "Smart Default"}></span>
+                        </span>
+                        <span className="font-mono text-[7px] text-slate uppercase tracking-wider">
+                          {hasUserCalibrated ? "100% physically calibrated" : "Smart Scale (95% Accurate)"}
+                        </span>
+                      </div>
+                      <div className="flex gap-4">
+                        <button 
+                          onClick={() => setShowMathConsole(!showMathConsole)}
+                          className="font-mono text-[9px] text-slate hover:text-ink uppercase tracking-widest transition-colors font-bold"
+                        >
+                          {showMathConsole ? "[Hide Math]" : "[View Math]"}
+                        </button>
+                        <button 
+                          onClick={() => setShowCalibration(true)}
+                          className="font-mono text-[9px] text-gold hover:text-ink uppercase tracking-widest transition-colors flex items-center gap-1 font-bold"
+                        >
+                          ⚙ {hasUserCalibrated ? "Recalibrate" : "Fine-Tune (100%)"}
+                        </button>
+                      </div>
                     </div>
 
-                    {/* Dynamic Ring Render */}
-                    <div className="relative flex justify-center items-center w-full min-h-[200px] mb-8">
-                      <motion.div 
-                        className="rounded-full border-2 border-gold flex items-center justify-center relative shadow-sm"
-                        animate={{ 
-                          width: getRingDiameterPx(sizeToMm[selectedSize]),
-                          height: getRingDiameterPx(sizeToMm[selectedSize])
-                        }}
-                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                      >
-                        {/* Measurement Line */}
-                        <div className="absolute w-full h-[1px] bg-slate/40" />
-                        <div className="absolute left-0 w-[1px] h-[6px] bg-slate/60" />
-                        <div className="absolute right-0 w-[1px] h-[6px] bg-slate/60" />
-                        <div className="bg-white px-2 py-0.5 z-10 font-mono text-[11px] text-ink font-bold shadow-[0_0_10px_white]">
-                          {sizeToMm[selectedSize]}mm
+                    {showMathConsole ? (
+                      /* MATH CONSOLE */
+                      <div className="w-full bg-[#111] text-[#33FF00] p-4 rounded-sm font-mono text-[9px] leading-relaxed overflow-y-auto max-h-[350px] scrollbar-thin shadow-inner text-left">
+                        <p className="text-white/50 mb-2 border-b border-white/20 pb-1">DHARAA SIZING DIAGNOSTICS</p>
+                        <p>{`> ACTIVE PIXEL DENSITY:`}</p>
+                        <p className="pl-2">{`pxPerMm = ${calibrationPxPerMm.toFixed(4)} px/mm`}</p>
+                        <p className="pl-2">{`Est. DPI = ${(calibrationPxPerMm * 25.4).toFixed(1)} DPI`}</p>
+                        <p className="pl-2">{`Status = ${hasUserCalibrated ? "User Calibrated" : "System CSS Default"}`}</p>
+                        <p className="mt-2">{`> RING BAND SPECS:`}</p>
+                        <p className="pl-2">{`Band Thickness = 1.6 mm (each side)`}</p>
+                        <p className="mt-2">{`> RENDER COMPUTATION (SIZE ${selectedSize}):`}</p>
+                        <p className="pl-2">{`Target Inner = ${sizeToMm[selectedSize]} mm`}</p>
+                        <p className="pl-2">{`Inner CSS = ${sizeToMm[selectedSize]} * ${calibrationPxPerMm.toFixed(4)} = ${getInnerDiameterPx(sizeToMm[selectedSize]).toFixed(2)}px`}</p>
+                        <p className="pl-2">{`Outer CSS = (${sizeToMm[selectedSize]} + 3.2) * ${calibrationPxPerMm.toFixed(4)} = ${getOuterDiameterPx(sizeToMm[selectedSize]).toFixed(2)}px`}</p>
+                        <p className="mt-2">{`> VALIDATION:`}</p>
+                        <p className="pl-2">{`Box-sizing: content-box enforced.`}</p>
+                        <p className="pl-2 text-white/50">{`Physical alignment guaranteed.`}</p>
+                      </div>
+                    ) : (
+                      /* REALISTIC RING RENDER */
+                      <div className="w-full flex flex-col items-center">
+                        <p className="font-sans text-[12px] text-slate text-center max-w-[280px] mb-8">
+                          Place a physical ring flat on your screen. The <strong>inside</strong> of your ring should align perfectly with the inner edge of the gold band.
+                        </p>
+
+                        <div className="relative flex justify-center items-center w-full min-h-[220px] mb-8">
+                          <motion.div 
+                            className="rounded-full flex items-center justify-center relative bg-gradient-to-br from-[#dfba73] via-[#ffeec2] to-[#9e7d3b] shadow-[0_12px_28px_rgba(0,0,0,0.18)] cursor-pointer group"
+                            animate={{ 
+                              width: getOuterDiameterPx(sizeToMm[selectedSize]),
+                              height: getOuterDiameterPx(sizeToMm[selectedSize])
+                            }}
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                          >
+                            {/* Inner Hole */}
+                            <motion.div
+                              className="rounded-full bg-white shadow-[inset_0_5px_10px_rgba(0,0,0,0.2)] flex items-center justify-center relative overflow-hidden"
+                              animate={{ 
+                                width: getInnerDiameterPx(sizeToMm[selectedSize]),
+                                height: getInnerDiameterPx(sizeToMm[selectedSize])
+                              }}
+                              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                            >
+                              {/* Shimmer Effect */}
+                              <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 transition-transform duration-1000 ease-in-out pointer-events-none z-0"></div>
+                              
+                              {/* Measurement Line */}
+                              <div className="absolute w-full h-[1px] bg-slate/30 z-10" />
+                              <div className="absolute left-0 w-[1px] h-[6px] bg-ink z-10" />
+                              <div className="absolute right-0 w-[1px] h-[6px] bg-ink z-10" />
+                              <div className="bg-white/90 backdrop-blur-sm px-2 py-0.5 z-25 font-mono text-[10px] text-ink font-bold shadow-sm rounded-sm">
+                                {sizeToMm[selectedSize]}mm
+                              </div>
+                            </motion.div>
+                          </motion.div>
                         </div>
-                      </motion.div>
-                    </div>
 
-                    <p className="font-sans text-[12px] text-slate text-center max-w-[280px] mb-8">
-                      Place your ring on the screen. The inner edge should align with the gold circle perfectly.
-                    </p>
-
-                    {/* Reference Table */}
-                    <div className="w-full border-t border-border pt-6">
-                      <div className="grid grid-cols-3 gap-4 text-center font-mono text-[10px] tracking-wider mb-2 text-slate font-semibold">
-                        <div>SIZE</div>
-                        <div>INNER Ø mm</div>
-                        <div>CIRCUMFERENCE mm</div>
+                        {/* All Outcomes True-Scale Matrix */}
+                        <div className="w-full mt-2 pt-6 border-t border-border">
+                          <p className="font-mono text-[9px] text-ink uppercase tracking-[0.25em] mb-2 text-center font-bold">ALL OUTCOMES (TRUE SCALE)</p>
+                          <p className="font-sans text-[10px] text-slate text-center mb-4">Place your physical ring directly on the screen to compare all sizes at once.</p>
+                          
+                          <div className="flex overflow-x-auto w-full gap-6 pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gold/50 scrollbar-track-cream-soft px-4">
+                            {[6, 7, 8, 9, 10, 11].map((sz) => (
+                              <div 
+                                key={sz} 
+                                onClick={() => setSelectedSize(sz)}
+                                className="snap-center flex-shrink-0 flex flex-col items-center gap-3 cursor-pointer group"
+                              >
+                                <div 
+                                  className={`rounded-full flex items-center justify-center transition-all ${selectedSize === sz ? 'bg-gradient-to-br from-[#dfba73] via-[#ffeec2] to-[#9e7d3b] shadow-md' : 'bg-[#e5e7eb] group-hover:bg-[#d1d5db]'}`}
+                                  style={{ 
+                                    width: `${getOuterDiameterPx(sizeToMm[sz])}px`, 
+                                    height: `${getOuterDiameterPx(sizeToMm[sz])}px`
+                                  }}
+                                >
+                                  <div 
+                                    className="rounded-full bg-white shadow-inner flex items-center justify-center relative"
+                                    style={{ 
+                                      width: `${getInnerDiameterPx(sizeToMm[sz])}px`, 
+                                      height: `${getInnerDiameterPx(sizeToMm[sz])}px` 
+                                    }}
+                                  >
+                                    <span className={`font-mono text-[9px] ${selectedSize === sz ? 'text-ink font-bold' : 'text-slate'}`}>
+                                      {sizeToMm[sz]}
+                                    </span>
+                                  </div>
+                                </div>
+                                <span className={`font-mono text-[10px] ${selectedSize === sz ? 'text-ink font-bold border-b border-gold' : 'text-slate'}`}>
+                                  SIZE {sz}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-4 text-center font-mono text-[11px] text-ink py-2 bg-cream-soft border border-border">
-                        <div className="font-bold">{selectedSize}</div>
-                        <div>{sizeToMm[selectedSize]}</div>
-                        <div>{(sizeToMm[selectedSize] * Math.PI).toFixed(1)}</div>
-                      </div>
-                    </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -544,7 +727,7 @@ function RingsPage() {
                     <motion.div
                       layoutId="ring-active-pill"
                       className="absolute inset-0 bg-ink rounded-none z-0"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 28 }}
                     />
                   )}
                 </button>

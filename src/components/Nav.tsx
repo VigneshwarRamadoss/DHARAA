@@ -1,5 +1,5 @@
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { Search, ShoppingBag, Heart, User } from "lucide-react";
+import { Search, ShoppingBag, Heart, User, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useCart } from "@/contexts/CartContext";
@@ -15,6 +15,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 40));
 
@@ -33,6 +34,17 @@ export function Nav() {
     >
       <div className="mx-auto flex max-w-[1500px] items-center justify-between px-6 py-5 md:px-12 relative">
         
+        {/* Mobile Hamburger Trigger */}
+        <div className="flex flex-1 md:hidden justify-start">
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="text-ink hover:text-gold transition-colors focus:outline-none py-1"
+            aria-label="Open Menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+
         {/* Navigation Links */}
         <nav className="hidden flex-1 items-center gap-8 text-[13px] tracking-wide text-ink md:flex h-full">
           <div 
@@ -175,6 +187,114 @@ export function Nav() {
                 </Link>
               </div>
 
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Menu Drawer Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="fixed inset-0 z-50 bg-background flex flex-col md:hidden"
+          >
+            {/* Header of Mobile Menu */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-border/40">
+              <span className="font-mono text-[9px] text-gold uppercase tracking-[0.25em] font-semibold">
+                § NAVIGATE
+              </span>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-ink hover:text-gold transition-colors focus:outline-none py-1"
+                aria-label="Close Menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Menu Links List */}
+            <div className="flex-1 flex flex-col justify-center px-8 py-10 gap-8 overflow-y-auto">
+              {[
+                { name: "New Arrivals", path: "/shop", search: { category: "all" } },
+                { name: "Rings", path: "/rings" },
+                { name: "Necklaces", path: "/necklaces" },
+                { name: "Earrings", path: "/earrings" },
+                { name: "About", path: "/about" }
+              ].map((link, idx) => (
+                <motion.div
+                  key={link.name}
+                  custom={idx}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.08, ease: "easeOut" }}
+                >
+                  <Link 
+                    to={link.path}
+                    search={link.search}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="font-display text-3xl font-light tracking-[0.15em] text-ink hover:text-gold transition-colors uppercase block py-2"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+
+              {/* Decorative line */}
+              <motion.div 
+                className="w-12 h-px bg-gold/40 my-4" 
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 0.4 }}
+              />
+
+              {/* Secondary links */}
+              <div className="flex flex-col gap-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45 }}
+                >
+                  <Link 
+                    to="/account" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="font-mono text-xs uppercase tracking-widest text-slate hover:text-ink transition-colors flex items-center gap-2"
+                  >
+                    <User className="h-4 w-4" /> Account Details
+                  </Link>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <button 
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsSearchOpen(true);
+                    }}
+                    className="font-mono text-xs uppercase tracking-widest text-slate hover:text-ink transition-colors flex items-center gap-2 text-left"
+                  >
+                    <Search className="h-4 w-4" /> Search Catalog
+                  </button>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Footer of Mobile Menu */}
+            <div className="p-8 border-t border-border/40 bg-cream-soft/30 text-center flex flex-col gap-2">
+              <span className="font-mono text-[8px] text-gold uppercase tracking-[0.2em] font-semibold">
+                DHARAA DESIGN HOUSE
+              </span>
+              <span className="font-mono text-[7px] text-slate uppercase tracking-wider">
+                Zaveri Bazaar • Mumbai • India
+              </span>
+              <span className="font-mono text-[6px] text-slate/50 tracking-[0.25em] mt-1">
+                § 18°55'N, 72°49'E
+              </span>
             </div>
           </motion.div>
         )}

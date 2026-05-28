@@ -304,7 +304,7 @@ function EarringsPage() {
                     <motion.div
                       layoutId="earring-active-pill"
                       className="absolute inset-0 bg-ink rounded-none z-0"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 28 }}
                     />
                   )}
                 </button>
