@@ -5,6 +5,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { Product } from '@/data/products';
 import { Link } from '@tanstack/react-router';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 interface ProductCardProps {
   product: Product;
@@ -36,13 +37,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     >
       {/* Image Area */}
       <Link to="/product/$id" params={{ id: product.id }} className="block relative overflow-hidden aspect-[4/5]">
-        <motion.img
+        <OptimizedImage
           src={product.image}
           alt={product.name}
-          loading="lazy"
           className="w-full h-full object-cover"
-          whileHover={{ scale: 1.04 }}
-          transition={{ duration: 0.35, ease: 'easeOut' }}
+          onHoverScale={1.04}
         />
 
         {/* Wishlist Button */}

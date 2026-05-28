@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import hero from "@/assets/hero.jpg";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -14,7 +15,7 @@ export function Hero() {
   return (
     <section ref={ref} className="relative h-[100svh] w-full overflow-hidden bg-cream">
       <motion.div style={{ y, scale }} className="parallax-el absolute inset-0">
-        <img src={hero} alt="DHARAA jewellery" className="h-full w-full object-cover object-center" />
+        <OptimizedImage src={hero} alt="DHARAA jewellery" priority={true} className="h-full w-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-b from-cream/30 via-transparent to-cream/60" />
       </motion.div>
 

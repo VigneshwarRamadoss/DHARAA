@@ -9,6 +9,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 
 import editorial from "@/assets/editorial.jpg";
 import p1 from "@/assets/p1.jpg";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
 export function Nav() {
   const { scrollY } = useScroll();
@@ -174,14 +175,14 @@ export function Nav() {
               <div className="flex flex-1 gap-6">
                 <Link to="/necklaces" className="group flex-1 block">
                   <div className="aspect-[4/5] bg-cream overflow-hidden mb-3">
-                    <img src={editorial} alt="Conscious Necklaces" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <OptimizedImage src={editorial} alt="Conscious Necklaces" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink group-hover:text-gold transition-colors">Conscious Necklaces</h4>
                 </Link>
                 
                 <Link to="/earrings" className="group flex-1 block">
                   <div className="aspect-[4/5] bg-cream overflow-hidden mb-3">
-                    <img src={p1} alt="Artisan Earrings" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <OptimizedImage src={p1} alt="Artisan Earrings" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   <h4 className="font-sans text-[11px] font-bold uppercase tracking-widest text-ink group-hover:text-gold transition-colors">Artisan Earrings</h4>
                 </Link>

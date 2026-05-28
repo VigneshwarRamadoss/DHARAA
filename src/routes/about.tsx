@@ -3,6 +3,12 @@ import { Nav } from '@/components/Nav';
 import { Footer } from '@/components/Footer';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useRef } from 'react';
+import editorialImg from '@/assets/editorial.jpg';
+import heroImg from '@/assets/hero.jpg';
+import p1Img from '@/assets/p1.jpg';
+import p2Img from '@/assets/p2.jpg';
+import p3Img from '@/assets/p3.jpg';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/about')({
   component: AboutPage
@@ -101,8 +107,8 @@ function AboutPage() {
                 className="aspect-[3/4] bg-cream border border-border overflow-hidden relative parallax-el"
               >
                 <div className="absolute inset-0 bg-ink/5" />
-                <img 
-                  src="/src/assets/editorial.jpg" 
+                <OptimizedImage 
+                  src={editorialImg} 
                   alt="DHARAA Atelier Editorial" 
                   className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" 
                 />
@@ -116,8 +122,8 @@ function AboutPage() {
                 className="aspect-square bg-cream border border-border overflow-hidden relative parallax-el"
               >
                 <div className="absolute inset-0 bg-ink/5" />
-                <img 
-                  src="/src/assets/hero.jpg" 
+                <OptimizedImage 
+                  src={heroImg} 
                   alt="Fine Crafted Rings" 
                   className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" 
                 />
@@ -167,7 +173,7 @@ function AboutPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <img src="/src/assets/p1.jpg" alt="Detail Jewelry Craft" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p1Img} alt="Detail Jewelry Craft" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             
             <motion.div 
@@ -177,7 +183,7 @@ function AboutPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
             >
-              <img src="/src/assets/p2.jpg" alt="Minimal Luxury Design" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p2Img} alt="Minimal Luxury Design" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             
             <motion.div 
@@ -187,7 +193,7 @@ function AboutPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              <img src="/src/assets/p3.jpg" alt="Everyday Heirloom Pieces" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
+              <OptimizedImage src={p3Img} alt="Everyday Heirloom Pieces" className="w-full h-full object-cover transition-transform duration-700 hover:scale-103" />
             </motion.div>
             
           </div>

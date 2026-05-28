@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import editorial from "@/assets/editorial.jpg";
+import { OptimizedImage } from "@/components/OptimizedImage";
 
 export function Editorial() {
   const ref = useRef<HTMLElement>(null);
@@ -12,7 +13,7 @@ export function Editorial() {
     <section ref={ref} className="relative grid min-h-[100vh] grid-cols-1 overflow-hidden bg-ink md:grid-cols-12">
       <div className="relative col-span-7 h-[60vh] overflow-hidden md:h-auto">
         <motion.div style={{ y }} className="parallax-el absolute inset-0 h-[130%]">
-          <img src={editorial} alt="DHARAA editorial" loading="lazy" className="h-full w-full object-cover" />
+          <OptimizedImage src={editorial} alt="DHARAA editorial" className="h-full w-full object-cover" />
         </motion.div>
       </div>
       <motion.div

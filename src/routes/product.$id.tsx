@@ -9,6 +9,7 @@ import { Heart, Minus, Plus, ShoppingBag, Truck, Shield } from 'lucide-react';
 import { CartDrawer } from '@/components/CartDrawer';
 import { WishlistDrawer } from '@/components/WishlistDrawer';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { OptimizedImage } from '@/components/OptimizedImage';
 
 export const Route = createFileRoute('/product/$id')({
   component: ProductDetail,
@@ -45,7 +46,7 @@ function ProductDetail() {
             {/* Image Gallery */}
             <div className="flex flex-col gap-4">
               <div className="aspect-[4/5] w-full bg-cream relative overflow-hidden border border-border">
-                <img 
+                <OptimizedImage 
                   src={product.image} 
                   alt={product.name} 
                   className="w-full h-full object-cover"
@@ -55,7 +56,7 @@ function ProductDetail() {
               <div className="grid grid-cols-4 gap-4">
                 {[1, 2, 3, 4].map((i) => (
                   <button key={i} className="aspect-square border border-border overflow-hidden opacity-70 hover:opacity-100 transition-opacity">
-                    <img src={product.image} alt="" className="w-full h-full object-cover" />
+                    <OptimizedImage src={product.image} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
