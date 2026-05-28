@@ -48,10 +48,15 @@ export function OptimizedImage({
     return () => observer.disconnect();
   }, [priority]);
 
+  // Extract object-fit and object-position classes to apply to the inner image
+  const classList = className.split(" ");
+  const objectFit = classList.find((c) => c.startsWith("object-") && c !== "object-center" && c !== "object-top" && c !== "object-bottom") || "object-cover";
+  const objectPosition = classList.filter((c) => (c.startsWith("object-") && (c === "object-center" || c === "object-top" || c === "object-bottom" || c === "object-left" || c === "object-right"))).join(" ");
+
   return (
     <div
       ref={imgRef}
-      className={`relative overflow-hidden ${aspectRatio ? `aspect-[${aspectRatio}]` : ""}`}
+      className={`relative overflow-hidden ${className} ${aspectRatio ? `aspect-[${aspectRatio}]` : ""}`}
       style={aspectRatio ? { aspectRatio } : undefined}
     >
       {/* Shimmer placeholder */}
@@ -77,11 +82,11 @@ export function OptimizedImage({
           decoding="async"
           fetchPriority={priority ? "high" : "auto"}
           onLoad={() => setLoaded(true)}
-          initial={{ opacity: 0, scale: 1.02 }}
-          animate={loaded ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          initial={{ opacity: 0 }}
+          animate={loaded ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           whileHover={onHoverScale ? { scale: onHoverScale } : undefined}
-          className={`w-full h-full object-cover ${className}`}
+          className={`w-full h-full ${objectFit} ${objectPosition}`}
         />
       )}
     </div>
